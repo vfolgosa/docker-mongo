@@ -23,6 +23,8 @@ node {
     }
 	
 	stage('Run image') {
-		app.run('-p 27017:27017')
-    }
+		docker.withRegistry('http://54.233.110.154:5043', 'docker-repository-credentials') {
+			app.run('-p 27017:27017')
+		}
+	}
 }
