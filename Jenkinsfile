@@ -5,7 +5,12 @@ node {
         /* Let's make sure we have the repository cloned to our workspace */
 
         checkout scm
-    }
+    
+	
+	
+	
+	
+	}
 
     stage('Build image') {
         /* This builds the actual image; synonymous to
@@ -32,7 +37,7 @@ node {
          * First, the incremental build number from Jenkins
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
-        docker.withRegistry('https://54.233.110.154', '	docker-repository-credentials') {
+        docker.withRegistry('https://54.233.110.154', 'docker-repository-credentials') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
