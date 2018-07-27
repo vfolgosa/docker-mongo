@@ -1,15 +1,13 @@
-FROM ubuntu
-MAINTAINER your@email.com
+FROM ubuntu:16.04
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+RUN echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu/ xenial/mongodb-org/3.4 multiverse" |  tee /etc/apt/sources.list.d/mongodb-3.4.list
 
-RUN \
-   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
-   echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list && \
-   apt-get update && \
-   apt-get install -y mongodb-org
+RUN apt-get update && apt-get install -y mongodb
+RUN mkdir -p /data/db
+RUN chown -R mongodb:mongodb /data/db
+ADD mongodb.conf /etc/mongodb.conf
+ADD mongodb.pem /etc/ssl/certs/mongodb.pem
 
 VOLUME ["/data/db"]
-WORKDIR /data
-
 EXPOSE 27017
-
-CMD ["mongod"]
+ENTRYPOINT ["/usr/bin/mongod", "--config", "/etc/mongodb.conf"]
