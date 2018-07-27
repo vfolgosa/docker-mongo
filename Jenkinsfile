@@ -16,7 +16,7 @@ node {
 			
 		}
 		stage('Stopping previus container') {
-			sh 'docker stop planets-mongodb'			
+			sh 'docker stop $(docker ps -q --filter ancestor=planets-mongodb )'			
 		}
 		stage('Run image') {
 			customImage.run('-p 27017:27017')
