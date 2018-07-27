@@ -24,6 +24,10 @@ node {
     }
 
     stage('Push image') {
+	
+		app.inside {
+            sh 'echo "Pushing"'
+        }
         /* Finally, we'll push the image with two tags:
          * First, the incremental build number from Jenkins
          * Second, the 'latest' tag.
