@@ -1,9 +1,9 @@
 node {
     checkout scm
 
-    docker.withRegistry('https://54.233.110.154', 'docker-repository-credentials') {
+    docker.withRegistry('http://54.233.110.154:5043', 'docker-repository-credentials') {
 
-        def customImage = docker.build("planets:${env.BUILD_ID}")
+        def customImage = docker.build("mongo:${env.BUILD_ID}")
 
         /* Push the container to the custom Registry */
         customImage.push()
