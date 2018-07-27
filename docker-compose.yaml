@@ -1,0 +1,15 @@
+version: "2.0"
+services:
+  mongo:
+    image: mongo
+    container_name: planets-mongodb
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+    networks:
+      - spring-mongo-net
+    volumes:
+      /data/db:/data/db
+networks:
+  spring-mongo-net:
+    driver: bridge
