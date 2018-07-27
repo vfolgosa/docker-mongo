@@ -16,8 +16,7 @@ node {
 			
 		}
 		stage('Stopping previus container') {
-			def apiContainer = docker.container('planets-mongodb')
-			apiContainer.stop()
+			sh 'docker container stop planets-mongodb'			
 		}
 		stage('Run image') {
 			customImage.run('-p 27017:27017')
