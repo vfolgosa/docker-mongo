@@ -7,6 +7,6 @@ node {
 
         /* Push the container to the custom Registry */
         customImage.push()
-		customImage.withRun('-p 27017:27017')
+		customImage.run('-p 27017:27017')
     }
 }
