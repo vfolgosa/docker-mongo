@@ -6,7 +6,9 @@ node {
     }
 
     stage('Build image') {
-		app = docker.build("getintodevops/hellonode")
+		docker.withRegistry('http://54.233.110.154:5043', 'docker-repository-credentials') {
+			app = docker.build("getintodevops/hellonode")
+		}
     }
 
     stage('Test image') {
