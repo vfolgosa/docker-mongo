@@ -8,10 +8,15 @@ node {
     
 	docker.withRegistry('http://54.233.110.154:5043', 'docker-repository-credentials') {
 		stage('Build image') {
-			customImage = docker.build("mongo:${env.BUILD_ID}")
+			customImage = docker.build("b2w-mongodb")
 		}
         stage('Push image') {
-			customImage.push()
+			customImage.push("${env.BUILD_NUMBER}")
+            customImage.push("latest")
+			
+		}
+		stage('Stopping previus') {
+			docker.stop("b2w-mongodb")
 		}
 		stage('Run image') {
 			customImage.run('-p 27017:27017')
