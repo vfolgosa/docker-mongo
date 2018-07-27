@@ -1,34 +1,22 @@
 node {
+
+	def customImage
+	
+	stage('Clone repository') {
+		checkout scm
+    }
+    
 	docker.withRegistry('http://54.233.110.154:5043', 'docker-repository-credentials') {
-		def app
-
-		stage('Clone repository') {
-			checkout scm
-		}
-
 		stage('Build image') {
-			
-				app = docker.build("b2w/mongo")
-			
+			customImage = docker.build("mongo:${env.BUILD_ID}")
 		}
-
-		stage('Test image') {
-			app.inside {
-				sh 'echo "Tests passed"'
-			}
+        stage('Push image') {
+			customImage.push()
 		}
-
-		stage('Push image') {
-			
-				app.push("${env.BUILD_NUMBER}")
-				app.push("latest")
-			
-		}
-		
 		stage('Run image') {
-			
-				app.run('-p 27017:27017')
-			
+			customImage.run('-p 27017:27017')
 		}
-	}
+    }
+	
+	
 }
